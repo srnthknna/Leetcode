@@ -1,0 +1,39 @@
+// https://leetcode.com/problems/word-search
+
+class Solution {
+    boolean[][] visited;
+    public boolean exist(char[][] board, String word) {
+        int row = board.length, col = board[0].length;
+        visited = new boolean[row][col];
+        
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (board[i][j] == word.charAt(0) && validator(i, j, 0, board, word)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    private boolean validator(int i, int j, int index, char[][] board, String word) {
+        if (index == word.length()) return true;
+
+        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || board[i][j] != word.charAt(index) || visited[i][j]) {
+            return false;
+        }
+        
+        visited[i][j] = true;
+        
+        if (validator(i + 1, j, index + 1, board, word) ||
+           validator(i - 1, j, index + 1, board, word) ||
+           validator(i, j + 1, index + 1, board, word) ||
+           validator(i, j - 1, index +1, board, word)) {
+            return true;
+        }
+        
+        visited[i][j] = false;
+        return false;
+    }
+}
